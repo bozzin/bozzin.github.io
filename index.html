@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Detox Residential Billing Analyzer</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Internal Billing Tool</p>
+      <h1>Detox Residential Treatment Billing Analyzer</h1>
+      <p class="subhead">
+        Estimate billable services, payer responsibility, and patient responsibility based on policy details for
+        detox residential treatment.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Client &amp; Policy Details</h2>
+      <form id="billing-form">
+        <div class="grid">
+          <label>
+            Client name
+            <input type="text" name="clientName" placeholder="Jordan Smith" />
+          </label>
+          <label>
+            Member ID
+            <input type="text" name="memberId" placeholder="ABC123456" />
+          </label>
+          <label>
+            Plan type
+            <select name="planType">
+              <option>PPO</option>
+              <option>HMO</option>
+              <option>EPO</option>
+              <option>Medicaid MCO</option>
+              <option>Commercial</option>
+            </select>
+          </label>
+          <label>
+            Network status
+            <select name="networkStatus">
+              <option value="in">In-network</option>
+              <option value="out">Out-of-network</option>
+            </select>
+          </label>
+          <label>
+            Detox level of care
+            <select name="levelOfCare">
+              <option>ASAM 3.7-WM (Medically monitored)</option>
+              <option>ASAM 3.2-WM (Clinically managed)</option>
+              <option>ASAM 3.5 (Residential)</option>
+            </select>
+          </label>
+          <label>
+            Days authorized
+            <input type="number" name="days" value="7" min="1" />
+          </label>
+          <label>
+            Per diem rate (allowed)
+            <input type="number" name="perDiem" value="850" min="0" step="0.01" />
+          </label>
+          <label>
+            Network allowed factor
+            <input type="number" name="allowedFactor" value="1" min="0" step="0.01" />
+          </label>
+          <label>
+            Prior authorization
+            <select name="priorAuth">
+              <option>Verified</option>
+              <option>Pending</option>
+              <option>Not required</option>
+            </select>
+          </label>
+        </div>
+
+        <h3>Cost Share</h3>
+        <div class="grid">
+          <label>
+            Deductible remaining
+            <input type="number" name="deductible" value="1000" min="0" step="0.01" />
+          </label>
+          <label>
+            Out-of-pocket remaining
+            <input type="number" name="oop" value="2500" min="0" step="0.01" />
+          </label>
+          <label>
+            Coinsurance % (patient)
+            <input type="number" name="coinsurance" value="20" min="0" max="100" step="1" />
+          </label>
+          <label>
+            Copay per day
+            <input type="number" name="copay" value="40" min="0" step="0.01" />
+          </label>
+        </div>
+
+        <h3>Billable Services</h3>
+        <p class="help">Toggle the services you deliver and adjust units to estimate billable totals.</p>
+        <div id="services" class="services"></div>
+
+        <div class="actions">
+          <button type="submit">Analyze Billing</button>
+          <button type="button" id="reset">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card results">
+      <h2>Billing Summary</h2>
+      <div id="summary" class="summary empty">
+        <p>Complete the form and click “Analyze Billing” to see billable details.</p>
+      </div>
+    </section>
+
+    <section class="card disclaimer">
+      <h2>Compliance Notes</h2>
+      <ul>
+        <li>Confirm benefits with the payer and verify authorization requirements before billing.</li>
+        <li>Rates shown are estimates and should be reconciled with contract allowed amounts.</li>
+        <li>Use accurate clinical documentation and medical necessity criteria for all billed services.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Internal use only. Not a guarantee of payment.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
