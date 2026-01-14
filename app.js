@@ -252,8 +252,107 @@ const resetForm = () => {
   calculateBilling();
 };
 
+const exportResults = () => {
+  const clientName = getText("clientName") || "Client";
+  const memberId = getText("memberId") || "N/A";
+  const planType = getText("planType");
+  const networkStatus = getText("networkStatus") === "in" ? "In-network" : "Out-of-network";
+  const levelOfCare = getText("levelOfCare");
+  const days = getNumber("days");
+  const perDiem = getNumber("perDiem");
+  
+  const selectedServices = services.map((service) => {
+    const enabled = form.elements[`${service.id}-enabled`]?.checked ?? false;
+    const rate = Math.max(0, getNumber(`${service.id}-rate`));
+    const units = Math.max(0, getNumber(`${service.id}-units`));
+    return {
+      ...service,
+      enabled,
+      rate: service.id === "residential" ? perDiem : rate,
+      units: service.id === "residential" ? days : units,
+    };
+  });
+
+  const billables = selectedServices.filter((service) => service.enabled);
+  const totalAllowed = billables.reduce(
+    (sum, service) => sum + service.rate * service.units,
+    0,
+  );
+  const adjustedAllowed = totalAllowed * getNumber("allowedFactor");
+  const deductibleApplied = Math.min(getNumber("deductible"), adjustedAllowed);
+  const afterDeductible = Math.max(0, adjustedAllowed - deductibleApplied);
+  const coinsuranceAmount = afterDeductible * (getNumber("coinsurance") / 100);
+  const copayAmount = getNumber("copay") * days;
+  let patientResponsibility = deductibleApplied + coinsuranceAmount + copayAmount;
+  
+  if (patientResponsibility > getNumber("oop")) {
+    patientResponsibility = getNumber("oop");
+  }
+  
+  const payerResponsibility = Math.max(0, adjustedAllowed - patientResponsibility);
+
+  const exportText = `
+DETOX RESIDENTIAL TREATMENT BILLING ANALYSIS
+Generated: ${new Date().toLocaleString()}
+
+═══════════════════════════════════════════════════════════
+
+CLIENT & POLICY INFORMATION
+───────────────────────────────────────────────────────────
+Client Name:           ${clientName}
+Member ID:             ${memberId}
+Plan Type:             ${planType}
+Network Status:        ${networkStatus}
+Level of Care:         ${levelOfCare}
+Days Authorized:       ${days}
+Per Diem Rate:         ${currency.format(perDiem)}
+Prior Authorization:   ${getText("priorAuth")}
+
+COST SHARE DETAILS
+───────────────────────────────────────────────────────────
+Deductible Remaining:  ${currency.format(getNumber("deductible"))}
+Out-of-Pocket Max:     ${currency.format(getNumber("oop"))}
+Coinsurance:           ${getNumber("coinsurance")}%
+Copay per Day:         ${currency.format(getNumber("copay"))}
+
+BILLABLE SERVICES
+───────────────────────────────────────────────────────────
+${billables.map(s => 
+  `${s.name} (${s.code})\n  Units: ${s.units} | Rate: ${currency.format(s.rate)} | Total: ${currency.format(s.rate * s.units)}`
+).join('\n\n')}
+
+FINANCIAL SUMMARY
+═══════════════════════════════════════════════════════════
+Total Allowed Amount:       ${currency.format(adjustedAllowed)}
+Deductible Applied:         ${currency.format(deductibleApplied)}
+Coinsurance Amount:         ${currency.format(coinsuranceAmount)}
+Copay Amount:               ${currency.format(copayAmount)}
+
+PATIENT RESPONSIBILITY:     ${currency.format(patientResponsibility)}
+PAYER RESPONSIBILITY:       ${currency.format(payerResponsibility)}
+
+═══════════════════════════════════════════════════════════
+DISCLAIMER: This is an estimate for internal use only. 
+Actual payment may vary based on payer adjudication.
+═══════════════════════════════════════════════════════════
+`;
+
+  const blob = new Blob([exportText], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `billing-analysis-${clientName.replace(/\s+/g, '-')}-${Date.now()}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
+
 buildServices();
 calculateBilling();
 form.addEventListener("submit", analyzeBilling);
 form.addEventListener("input", calculateBilling);
 resetButton.addEventListener("click", resetForm);
+
+const exportButton = document.getElementById("export");
+exportButton.addEventListener("click", exportResults);

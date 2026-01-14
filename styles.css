@@ -134,6 +134,15 @@ button#reset {
   color: #1d4f91;
 }
 
+button#export {
+  background: #059669;
+  color: #fff;
+}
+
+button#export:hover {
+  box-shadow: 0 12px 20px rgba(5, 150, 105, 0.18);
+}
+
 button:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 20px rgba(29, 79, 145, 0.18);
@@ -215,4 +224,58 @@ footer {
   .service-item {
     grid-template-columns: auto 1fr;
   }
+}
+
+/* Print styles for professional PDF output */
+@media print {
+  .hero {
+    background: #0c2340 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  button {
+    display: none;
+  }
+
+  .card {
+    page-break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
+  }
+
+  .summary-grid {
+    page-break-inside: avoid;
+  }
+
+  footer {
+    page-break-before: always;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced focus states for accessibility */
+*:focus-visible {
+  outline: 3px solid #699bf7;
+  outline-offset: 2px;
+}
+
+/* Loading animation for dynamic content */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.summary-grid {
+  animation: fadeIn 0.4s ease-out;
 }
