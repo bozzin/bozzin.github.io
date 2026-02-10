@@ -3,146 +3,141 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Detox Residential Billing Analyzer | Internal Billing Tool</title>
-  <meta name="description" content="Professional internal billing tool for estimating detox residential treatment services, payer responsibility, and patient cost share based on insurance policy details." />
-  <meta name="keywords" content="detox billing, residential treatment, healthcare billing, insurance calculator, ASAM levels" />
-  <meta name="author" content="Internal Billing Team" />
-  
-  <!-- Open Graph / Social Media -->
+  <title>Compassionate Addiction Treatment Support | Start Today</title>
+  <meta
+    name="description"
+    content="Private, compassionate help for substance use disorder. Speak with a treatment specialist, verify insurance, and begin your recovery journey today."
+  />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Detox Residential Billing Analyzer" />
-  <meta property="og:description" content="Estimate billable services and patient responsibility for detox residential treatment." />
-  
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  
+  <meta property="og:title" content="Compassionate Addiction Treatment Support" />
+  <meta
+    property="og:description"
+    content="Talk to a treatment specialist now. Immediate support, confidential assessment, and admissions guidance."
+  />
+  <meta name="theme-color" content="#12213d" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="hero">
-    <div>
-      <p class="eyebrow">Internal Billing Tool</p>
-      <h1>Detox Residential Treatment Billing Analyzer</h1>
-      <p class="subhead">
-        Estimate billable services, payer responsibility, and patient responsibility based on policy details for
-        detox residential treatment.
-      </p>
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <p class="eyebrow">Support starts now</p>
+        <h1>You're Not Alone — Treatment for Substance Use Disorder Starts Here</h1>
+        <p class="subhead">
+          If you or someone you love is struggling with alcohol or drug addiction, our care team is ready to
+          help you take the next step with dignity, privacy, and compassion.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#contact">Get Help Now</a>
+          <a class="btn secondary" href="tel:+18005551234">Call 24/7: (800) 555-1234</a>
+        </div>
+        <ul class="trust-list" aria-label="Trust indicators">
+          <li>Confidential pre-screening</li>
+          <li>Insurance verification available</li>
+          <li>Same-day admissions support</li>
+        </ul>
+      </div>
+      <aside class="hero-card" aria-label="Quick support options">
+        <h2>Need immediate support?</h2>
+        <p>Speak directly with a treatment specialist right now.</p>
+        <a class="btn primary full" href="tel:+18005551234">Call Now</a>
+        <a class="btn ghost full" href="#contact">Request a Call Back</a>
+        <small>If this is a medical emergency, call 911.</small>
+      </aside>
     </div>
   </header>
 
   <main>
-    <section class="card">
-      <h2>Client &amp; Policy Details</h2>
-      <form id="billing-form">
-        <div class="grid">
-          <label>
-            Client name
-            <input type="text" name="clientName" placeholder="Jordan Smith" />
-          </label>
-          <label>
-            Member ID
-            <input type="text" name="memberId" placeholder="ABC123456" />
-          </label>
-          <label>
-            Plan type
-            <select name="planType">
-              <option>PPO</option>
-              <option>HMO</option>
-              <option>EPO</option>
-              <option>Medicaid MCO</option>
-              <option>Commercial</option>
-            </select>
-          </label>
-          <label>
-            Network status
-            <select name="networkStatus">
-              <option value="in">In-network</option>
-              <option value="out">Out-of-network</option>
-            </select>
-          </label>
-          <label>
-            Detox level of care
-            <select name="levelOfCare">
-              <option>ASAM 3.7-WM (Medically monitored)</option>
-              <option>ASAM 3.2-WM (Clinically managed)</option>
-              <option>ASAM 3.5 (Residential)</option>
-            </select>
-          </label>
-          <label>
-            Days authorized
-            <input type="number" name="days" value="7" min="1" />
-          </label>
-          <label>
-            Per diem rate (allowed)
-            <input type="number" name="perDiem" value="850" min="0" step="0.01" />
-          </label>
-          <label>
-            Network allowed factor
-            <input type="number" name="allowedFactor" value="1" min="0" step="0.01" />
-          </label>
-          <label>
-            Prior authorization
-            <select name="priorAuth">
-              <option>Verified</option>
-              <option>Pending</option>
-              <option>Not required</option>
-            </select>
-          </label>
-        </div>
-
-        <h3>Cost Share</h3>
-        <div class="grid">
-          <label>
-            Deductible remaining
-            <input type="number" name="deductible" value="1000" min="0" step="0.01" />
-          </label>
-          <label>
-            Out-of-pocket remaining
-            <input type="number" name="oop" value="2500" min="0" step="0.01" />
-          </label>
-          <label>
-            Coinsurance % (patient)
-            <input type="number" name="coinsurance" value="20" min="0" max="100" step="1" />
-          </label>
-          <label>
-            Copay per day
-            <input type="number" name="copay" value="40" min="0" step="0.01" />
-          </label>
-        </div>
-
-        <h3>Billable Services</h3>
-        <p class="help">Toggle the services you deliver and adjust units to estimate billable totals.</p>
-        <div id="services" class="services"></div>
-
-        <div class="actions">
-          <button type="submit">Analyze Billing</button>
-          <button type="button" id="export">Export Results</button>
-          <button type="button" id="reset">Reset</button>
-        </div>
-      </form>
-    </section>
-
-    <section class="card results">
-      <h2>Billing Summary</h2>
-      <div id="summary" class="summary empty">
-        <p>Complete the form and click “Analyze Billing” to see billable details.</p>
+    <section class="section">
+      <div class="container cards">
+        <article class="info-card">
+          <h2>How We Help</h2>
+          <p>
+            We connect you with a personalized path to care that may include detox, residential treatment,
+            outpatient programming, and aftercare planning.
+          </p>
+        </article>
+        <article class="info-card">
+          <h2>What to Expect</h2>
+          <p>
+            Our team listens first. We'll discuss your current situation, answer your questions, and guide you
+            through each step of the admissions process.
+          </p>
+        </article>
+        <article class="info-card">
+          <h2>Who We Serve</h2>
+          <p>
+            Adults seeking treatment for substance abuse and co-occurring mental health concerns in a supportive,
+            non-judgmental environment.
+          </p>
+        </article>
       </div>
     </section>
 
-    <section class="card disclaimer">
-      <h2>Compliance Notes</h2>
-      <ul>
-        <li>Confirm benefits with the payer and verify authorization requirements before billing.</li>
-        <li>Rates shown are estimates and should be reconciled with contract allowed amounts.</li>
-        <li>Use accurate clinical documentation and medical necessity criteria for all billed services.</li>
-      </ul>
+    <section class="section alt" id="contact">
+      <div class="container contact-grid">
+        <div>
+          <p class="eyebrow">Take the first step</p>
+          <h2>Request a Confidential Call</h2>
+          <p>
+            Fill out this quick form and a treatment specialist will contact you shortly. Replace this form action
+            with your GoHighLevel funnel form endpoint when embedding.
+          </p>
+        </div>
+        <form class="lead-form" id="lead-form" action="#" method="post">
+          <label>
+            Full Name
+            <input type="text" name="name" autocomplete="name" required />
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" name="phone" autocomplete="tel" required />
+          </label>
+          <label>
+            Email (optional)
+            <input type="email" name="email" autocomplete="email" />
+          </label>
+          <label>
+            How can we help?
+            <textarea name="message" rows="4" placeholder="Briefly share your situation"></textarea>
+          </label>
+          <button class="btn primary" type="submit">Request Help</button>
+          <p class="fine-print">By submitting, you consent to be contacted by phone/text about treatment options.</p>
+          <p class="form-status" id="form-status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container faq">
+        <h2>Frequently Asked Questions</h2>
+        <details>
+          <summary>How quickly can someone be admitted?</summary>
+          <p>Admissions timelines vary, but many people can begin same day after a clinical and insurance review.</p>
+        </details>
+        <details>
+          <summary>Can you help verify insurance coverage?</summary>
+          <p>Yes. Our team can review plan details and explain potential treatment coverage options.</p>
+        </details>
+        <details>
+          <summary>Is my information private?</summary>
+          <p>Yes. Your information is handled confidentially according to applicable privacy standards.</p>
+        </details>
+      </div>
     </section>
   </main>
 
   <footer>
-    <p>Internal use only. Not a guarantee of payment.</p>
+    <div class="container footer-row">
+      <p>© <span id="year"></span> Recovery Support Team. All rights reserved.</p>
+      <a href="#top">Back to top</a>
+    </div>
   </footer>
 
   <script src="app.js"></script>
